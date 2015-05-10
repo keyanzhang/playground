@@ -30,6 +30,9 @@ Pat    ::= ()
 
 Cata   ::= Exp
 
+@DONE:
+1. `,[]`, `,[Id*]`, `[Cata -> Id*]` functionalities (there are some test cases at the bottom of the file).
+
 @TODO:
 1. ellipsis ...
 2. identical pattern variables: `(,a ,b ,a)
