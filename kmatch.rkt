@@ -4,8 +4,8 @@
 #|
 
 A linear pattern matcher based on Oleg Kiselyov's `pmatch`[1].
-The goal is to port `match.ss`[2]'s catamorphism[3] feature to `pmatch` while preserving its simplicity.
-https://github.com/keyanzhang/playground/kmatch.rkt
+The goal is to port `match.ss`[2]'s catamorphism[3] feature to `pmatch` while preserving its simplicity. 
+Unsurprisingly it's called `kmatch`. https://github.com/keyanzhang/playground/kmatch.rkt
 
 [1] pmatch: https://cgi.soic.indiana.edu/~c311/lib/exe/fetch.php?media=pmatch.pdf
 [2] match: http://www.cs.indiana.edu/chezscheme/match/
