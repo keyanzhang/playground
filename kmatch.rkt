@@ -3,12 +3,13 @@
 
 #|
 
+A linear pattern matcher based on Oleg Kiselyov's `pmatch`[1].
+The goal is to port `match.ss`[2]'s catamorphism[3] feature to `pmatch` while preserving its simplicity.
 https://github.com/keyanzhang/playground/kmatch.rkt
-Porting Catamorphism from `match` to `pmatch`. Unsurprisingly it's called `kmatch`.
 
-Based on:
-- pmatch: https://cgi.soic.indiana.edu/~c311/lib/exe/fetch.php?media=pmatch.pdf
-- match: http://www.cs.indiana.edu/chezscheme/match/
+[1] pmatch: https://cgi.soic.indiana.edu/~c311/lib/exe/fetch.php?media=pmatch.pdf
+[2] match: http://www.cs.indiana.edu/chezscheme/match/
+[3] Catamorphism: http://en.wikipedia.org/wiki/Catamorphism
 
 Exp    ::= (kmatch Exp Clause+)
          | (kmatch-who Name Exp Clause+)
