@@ -1,4 +1,5 @@
 #lang racket
+(require racket/syntax)
 (provide kmatch kmatch-who)
 
 #|
@@ -122,6 +123,66 @@ Cata   ::= Exp
                  self))
          cont-f)]
     [(_ val const cont-t cont-f self) (if (equal? val (quote const)) cont-t cont-f)]))
+
+;; (define nl1 '((1 2 3) (4 5)))
+;; (define nl2 '(((1 2 3) (4 5)) ((6 7))))
+
+;; `(start ,nl1 end) ;; => '(start ((1 2 3) (4 5)) end)
+;; `(start ,@nl1 end) ;; => '(start (1 2 3) (4 5) end)
+;; ; `(start ,nl1 .. end) => '(start (1 2 3) (4 5) end)
+;; ; `(start ,nl1 .. .. end) => '(start 1 2 3 4 5 end)
+
+;; `(start ,nl2 end) ;; => '(start (((1 2 3) (4 5)) ((6 7))) end)
+;; `(start ,@nl2 end) ;; => '(start ((1 2 3) (4 5)) ((6 7)) end)
+;; ; `(start ,nl2 .. end) ;; => '(start ((1 2 3) (4 5)) ((6 7)) end)
+;; ; `(start ,nl2 .. .. end) ;; => '(start (1 2 3) (4 5) (6 7) end)
+;; ; `(start ,nl2 .. .. .. end) ;; => '(start 1 2 3 4 5 6 7 end)
+
+
+;; ;; (define-syntax (reconst stx)
+;; ;;   (syntax-case stx ()
+;; ;;     [(_ (quote (id ...)))
+;; ;;      (with-syntax ([(temp ...) (generate-temporaries #'(id ...))])
+;; ;;        #'(let-values ([(temp ...) (values id ...)])
+;; ;;            (list temp ...)))]))
+
+;; (define-syntax reconst
+;;   (syntax-rules ()
+;;     [(_ (quote ()))
+;;      '()]
+;;     [(_ (quote (a . d)))
+;;      (let ([tmp 'a])
+;;        (cons tmp (reconst (quote d))))]
+;;     [(_ (quote const))
+;;      'const]))
+
+;; (define-syntax quasiwrap
+;;   (syntax-rules (quasiquote quote unquote unquote-splicing ..)
+;;     [(_ (quasiquote ())) `()]
+;;     [(_ (quasiquote (unquote const))) `,const]
+;;     [(_ (quasiquote (unquote-splicing const))) (flatten-n 1 `,const)]
+;;     [(_ (quasiquote (a .. .. .. . d)))
+;;      (let ([tmp (flatten-n 3 (quasiwrap (quasiquote a)))])
+;;        (cons tmp (quasiwrap (quasiquote d))))]
+;;     [(_ (quasiquote (a .. .. . d)))
+;;      (let ([tmp (flatten-n 2 (quasiwrap (quasiquote a)))])
+;;        (cons tmp (quasiwrap (quasiquote d))))]
+;;     [(_ (quasiquote (a .. . d)))
+;;      (let ([tmp (flatten-n 1 (quasiwrap (quasiquote a)))])
+;;        (cons tmp (quasiwrap (quasiquote d))))]
+;;     [(_ (quasiquote (a . d)))
+;;      (let ([tmp (quasiwrap (quasiquote a))])
+;;        (cons tmp (quasiwrap (quasiquote d))))]
+;;     [(_ (quasiquote const)) (quasiquote const)]))
+
+;; (define (flatten-n n ls)
+;;   (let loop ([n n] [ls ls])
+;;     (cond
+;;       [(zero? n) ls]
+;;       [else (loop (- n 1) (apply append ls))])))
+
+;; (define (flatten-1 ls)
+;;   (apply append ls))
 
 
 ;; tests
